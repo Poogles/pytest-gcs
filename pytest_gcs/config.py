@@ -1,6 +1,6 @@
 """Config loading helpers."""
 
-from typing import Any, Optional, TypedDict, List
+from typing import Any, List, Optional, TypedDict
 
 from _pytest.fixtures import FixtureRequest
 

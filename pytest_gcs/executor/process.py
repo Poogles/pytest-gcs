@@ -1,3 +1,7 @@
+"""GCS process executor.
+
+Starts a local GCS server using the targeted configuration.
+"""
 from pathlib import Path
 from typing import List, Optional
 
@@ -5,6 +9,8 @@ from mirakuru import HTTPExecutor
 
 
 class GCSExecutor(HTTPExecutor):
+    """Local GCS executor."""
+
     def __init__(
         self,
         executable: Path,
@@ -15,6 +21,21 @@ class GCSExecutor(HTTPExecutor):
         externalurl: Optional[str] = None,
         loglevel: Optional[str] = None,
     ) -> None:
+        """Start up local GCS.
+
+        Args:
+            executable: executable to call.
+            host: host address fixture will be started on.
+            port: port fixture will listen on.
+            filesystemroot: path to on local file system fixture will
+                use as local storage.
+            corsheaders: allowed cors headers.
+            externalurl: location header in returned URLs.
+            loglevel: log level passed to `fake-gcs-server` binary.
+
+        Returns:
+            None
+        """
         command = [
             str(executable),
             "-scheme",
@@ -42,5 +63,6 @@ class GCSExecutor(HTTPExecutor):
         )
 
     def start(self) -> "GCSExecutor":
+        """Start the GCS executor."""
         super().start()
         return self

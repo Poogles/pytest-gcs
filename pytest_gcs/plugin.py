@@ -1,3 +1,4 @@
+"""pytest-gcs plugin declaration."""
 from shutil import which
 
 from pytest import Parser

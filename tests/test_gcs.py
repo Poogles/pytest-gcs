@@ -1,3 +1,4 @@
+"""General plugin tests."""
 from google.cloud import storage
 
 from pytest_gcs.executor.process import GCSExecutor

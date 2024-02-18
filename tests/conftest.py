@@ -6,7 +6,6 @@ import warnings
 import pytest_gcs.factories.client
 import pytest_gcs.factories.proc
 
-
 warnings.filterwarnings(
     "error",
     category=DeprecationWarning,

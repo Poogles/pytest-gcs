@@ -1,10 +1,10 @@
+"""GCS process factory."""
 from pathlib import Path
-from typing import Callable, Generator, Optional, List
+from typing import Callable, Generator, List, Optional
 
 import pytest
 from _pytest.fixtures import FixtureRequest
 from _pytest.tmpdir import TempPathFactory
-
 from port_for import get_port
 
 from pytest_gcs.config import get_config
@@ -12,7 +12,6 @@ from pytest_gcs.executor import GCSExecutor
 
 
 def gcs_proc(
-    timeout: Optional[int] = None,
     executable: Optional[str] = None,
     host: Optional[str] = None,
     port: Optional[int] = None,
@@ -29,16 +28,18 @@ def gcs_proc(
     ) -> Generator[GCSExecutor, None, None]:
         """Fixture for pytest-gcs.
 
-        #. Get configs.
-        #. Run gcs process.
-        #. Stop gcs process after tests.
+        This fixture:
+        * Get configs.
+        * Run gcs process.
+        * Stop gcs process after tests runs and does any cleanup.
 
-        :param request: fixture request object
-        :param tmpdir_factory:
-        :rtype: pytest_gcs.executors.TCPExecutor
-        :returns: tcp executor
+        Args:
+            request: Request fixture we're targeting.
+            tmp_path_factory: Temporary directory fixture.
+
+        Yields:
+            Configured and active GCSExecutor.
         """
-
         config = get_config(request)
         gcs_exec = executable or config["executable"]
 

@@ -40,3 +40,7 @@ requires-python = ">= 3.8"
 
 [project.entry-points."pytest11"]
 pytest_redis = "pytest_gcs.plugin"
+
+
+[project.optional-dependencies]
+test = ["mypy", "pytest-cov", "pydocstyle"]
