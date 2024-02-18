@@ -1,8 +1,5 @@
-import shutil
 from pathlib import Path
-from typing import Optional
-
-from tempfile import TemporaryDirectory
+from typing import List, Optional
 
 from mirakuru import HTTPExecutor
 
@@ -10,35 +7,36 @@ from mirakuru import HTTPExecutor
 class GCSExecutor(HTTPExecutor):
     def __init__(
         self,
-        port: int = 12345,
-        host: Optional[str] = None,
-        filesystemroot: Optional[Path] = None,
-        executable: Optional[Path] = None,
+        executable: Path,
+        host: str,
+        port: int,
+        filesystemroot: Path,
+        corsheaders: Optional[List[str]] = None,
+        externalurl: Optional[str] = None,
+        loglevel: Optional[str] = None,
     ) -> None:
-        if not filesystemroot:
-            self._temp_dir = TemporaryDirectory()
-            _filesystemroot = self._temp_dir.name
-        else:
-            _filesystemroot = str(filesystemroot)
-
-        if not executable:
-            possible_path = shutil.which("fake-gcs-server")
-            if not possible_path:
-                raise Exception("Unable to find `fake-gcs-server`")
-
-            _executable = possible_path
-        else:
-            _executable = str(executable)
-
         command = [
-            _executable,
+            str(executable),
             "-scheme",
             "http",
             "-port",
             str(port),
             "-filesystem-root",
-            str(_filesystemroot),
+            str(filesystemroot),
         ]
+
+        if corsheaders:
+            command.extend(["-cors-headers", ",".join(corsheaders)])
+
+        if externalurl:
+            command.extend(["-external-url", externalurl])
+
+        if loglevel:
+            command.extend(["-log-level", loglevel])
+
+        self._starting_command = command
+        self.executable = executable
+
         super().__init__(
             command, url=f"http://localhost:{port}", timeout=5, status="404"
         )

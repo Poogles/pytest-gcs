@@ -1,4 +1,3 @@
-from typing import Any
 from google.cloud import storage
 
 from pytest_gcs.executor.process import GCSExecutor

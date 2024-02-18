@@ -1,6 +1,6 @@
 """GCS client fixture factory."""
 
-from typing import Callable, Generator, Literal, Optional, Union
+from typing import Callable, Generator
 
 import pytest
 from _pytest.fixtures import FixtureRequest
@@ -37,7 +37,7 @@ def gcslocal(
         Yields:
             GCS client configured for test fixture.
         """
-        proc_fixture: Union[GCSExecutor] = request.getfixturevalue(process_fixture_name)
+        proc_fixture: GCSExecutor = request.getfixturevalue(process_fixture_name)
 
         gcs_host = proc_fixture.host
         gcs_port = proc_fixture.port
