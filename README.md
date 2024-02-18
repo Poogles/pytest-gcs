@@ -7,9 +7,22 @@ and [fake-gcs-server](https://github.com/fsouza/fake-gcs-server); this is a simp
 those tools.
 
 
-### Setup
+### Installation
 
 This tool requires you to have a copy of the `fake-gcs-server` binary somewhere on your path.
+Depending upon your architecture you'll need a different version of the tool.
+
+```sh
+wget https://github.com/fsouza/fake-gcs-server/releases/download/v1.47.8/fake-gcs-server_1.47.8_Linux_amd64.tar.gz
+tar -xvf fake-gcs-server_1.47.8_Linux_amd64.tar.gz
+mv fake-gcs-server /usr/local/bin
+```
+
+To install this library:
+
+```sh
+pip install pytest-gcs
+```
 
 
 ### Demo
