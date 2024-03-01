@@ -1,6 +1,6 @@
 [project]
 name = "pytest-gcs"
-version = "0.0.1"
+version = "0.0.2"
 description = "GCS fixtures and fixture factories for Pytest."
 readme = "README.md"
 keywords = ["tests", "pytest", "fixture", "gcs"]
@@ -39,7 +39,7 @@ requires-python = ">= 3.8"
 "Bug Tracker" = "https://github.com/Poogles/pytest-gcs/issues"
 
 [project.entry-points."pytest11"]
-pytest_redis = "pytest_gcs.plugin"
+pytest_gcs = "pytest_gcs.plugin"
 
 
 [project.optional-dependencies]

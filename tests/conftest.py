@@ -9,7 +9,7 @@ import pytest_gcs.factories.proc
 warnings.filterwarnings(
     "error",
     category=DeprecationWarning,
-    module="(_pytest|pytest|redis|path|mirakuru).*",
+    module="(_pytest|pytest|google|path|mirakuru).*",
 )
 
 gcs_proc = pytest_gcs.factories.proc.gcs_proc()
