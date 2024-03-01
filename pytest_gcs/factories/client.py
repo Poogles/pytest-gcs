@@ -22,7 +22,7 @@ def gcslocal(
         Local GCS client factory.
     """
 
-    @pytest.fixture
+    @pytest.fixture(scope="session")
     def gcslocal_factory(
         request: FixtureRequest,
     ) -> Generator[storage.Client, None, None]:

@@ -1,4 +1,5 @@
 """General plugin tests."""
+import pytest
 from google.cloud import storage
 
 from pytest_gcs.executor.process import GCSExecutor
@@ -41,3 +42,14 @@ def test_gcs_write_read_files(gcs_proc: GCSExecutor, gcslocal: storage.Client) -
     blob.upload_from_string(test_string)
 
     assert bucket.get_blob(test_file).download_as_bytes().decode() == test_string
+
+
+@pytest.fixture(scope="session")
+def session_based_fixture(gcslocal1: storage.Client) -> None:
+    """Empty fixture to validate clients are session scoped."""
+    pass
+
+
+def test_validate_client_is_session_based(session_based_fixture: None) -> None:
+    """Empty test that validates client is session scoped."""
+    pass
