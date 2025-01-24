@@ -23,7 +23,40 @@ def gcs_proc(
     externalurl: Optional[str] = None,
     loglevel: Optional[str] = None,
 ) -> Callable[[FixtureRequest, TempPathFactory], Generator[GCSExecutor, None, None]]:
-    """Fixture factory for pytest-gcs."""
+    """Creates a pytest fixture for managing a fake GCS (Google Cloud Storage) server.
+
+        This function returns a pytest fixture that sets up a `GCSExecutor` instance
+        for testing purposes. It ensures that the fake GCS server is properly configured, 
+        started before tests run, and shut down afterward.
+
+        Args:
+            executable: Path to the fake GCS server executable. Defaults to the
+                value from pytest-gcs config.
+            host: The host address to bind the server to. Defaults to config.
+            port: The port for the GCS server. If not provided, an available
+                port is selected.
+            filesystemroot: The root directory for GCS storage. Defaults to a
+                temporary directory.
+            data: Path to the initial dataset file. Defaults to config.
+            data_fixture_name: Name of another fixture that provides the dataset
+                file path. Defaults to config.
+            corsheaders: List of CORS headers allowed by the server. Defaults to
+                config.
+            externalurl: External URL the server should be reachable at.
+                Defaults to config.
+            loglevel: Logging level for the server. Defaults to config.
+
+        Returns:
+            A pytest fixture that, when used, provides a running `GCSExecutor` instance.
+
+        Example:
+            ```python
+            @pytest.fixture
+            def gcs_instance(gcs_proc):
+                yield from gcs_proc()
+            ```
+        """
+
 
     @pytest.fixture(scope="session")
     def gcs_proc_fixture(
@@ -68,7 +101,7 @@ def gcs_proc(
         elif data:
             data_path = Path(data)
         else:
-            data_path = config["data"]
+            data_path = Path(config["data"])
 
         gcs_executor = GCSExecutor(
             executable=Path(gcs_exec),
