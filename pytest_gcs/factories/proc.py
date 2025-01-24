@@ -1,4 +1,5 @@
 """GCS process factory."""
+
 from pathlib import Path
 from typing import Callable, Generator, List, Optional
 
@@ -16,6 +17,8 @@ def gcs_proc(
     host: Optional[str] = None,
     port: Optional[int] = None,
     filesystemroot: Optional[Path] = None,
+    data: Optional[str] = None,
+    data_fixture_name: Optional[str] = None,
     corsheaders: Optional[List[str]] = None,
     externalurl: Optional[str] = None,
     loglevel: Optional[str] = None,
@@ -24,7 +27,8 @@ def gcs_proc(
 
     @pytest.fixture(scope="session")
     def gcs_proc_fixture(
-        request: FixtureRequest, tmp_path_factory: TempPathFactory
+        request: FixtureRequest,
+        tmp_path_factory: TempPathFactory,
     ) -> Generator[GCSExecutor, None, None]:
         """Fixture for pytest-gcs.
 
@@ -59,11 +63,19 @@ def gcs_proc(
         )
         assert gcs_port, "Unable to find a port available."
 
+        if data_fixture_name:
+            data_path = request.getfixturevalue(data_fixture_name)
+        elif data:
+            data_path = Path(data)
+        else:
+            data_path = config["data"]
+
         gcs_executor = GCSExecutor(
             executable=Path(gcs_exec),
             port=gcs_port,
             host=host or config["host"],
             filesystemroot=_filesystemroot,
+            data=data_path,
             corsheaders=corsheaders or config["corsheaders"],
             externalurl=externalurl or config["externalurl"],
             loglevel=loglevel or config["loglevel"],

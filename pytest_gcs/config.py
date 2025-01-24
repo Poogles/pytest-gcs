@@ -12,6 +12,7 @@ class GcsConfigType(TypedDict):
     port: Optional[int]
     host: str
     filesystemroot: str
+    data: str
     corsheaders: List[str]
     externalurl: str
     loglevel: str
@@ -32,6 +33,7 @@ def get_config(request: FixtureRequest) -> GcsConfigType:
         "port": int(port) if port else None,
         "host": get_conf_option("host"),
         "filesystemroot": get_conf_option("filesystemroot"),
+        "data": get_conf_option("data"),
         "corsheaders": get_conf_option("corsheaders"),
         "externalurl": get_conf_option("externalurl"),
         "loglevel": get_conf_option("loglevel"),

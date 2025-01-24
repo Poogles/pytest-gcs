@@ -2,6 +2,7 @@
 
 Starts a local GCS server using the targeted configuration.
 """
+
 from pathlib import Path
 from typing import List, Optional
 
@@ -17,6 +18,7 @@ class GCSExecutor(HTTPExecutor):
         host: str,
         port: int,
         filesystemroot: Path,
+        data: Optional[Path] = None,
         corsheaders: Optional[List[str]] = None,
         externalurl: Optional[str] = None,
         loglevel: Optional[str] = None,
@@ -45,6 +47,9 @@ class GCSExecutor(HTTPExecutor):
             "-filesystem-root",
             str(filesystemroot),
         ]
+
+        if data:
+            command.extend(["-data", str(data)])
 
         if corsheaders:
             command.extend(["-cors-headers", ",".join(corsheaders)])

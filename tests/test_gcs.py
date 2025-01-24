@@ -1,4 +1,5 @@
 """General plugin tests."""
+
 import pytest
 from google.cloud import storage
 
@@ -42,6 +43,18 @@ def test_gcs_write_read_files(gcs_proc: GCSExecutor, gcslocal: storage.Client) -
     blob.upload_from_string(test_string)
 
     assert bucket.get_blob(test_file).download_as_bytes().decode() == test_string
+
+
+def test_gcs_data_seed(gcslocal_seeded: storage.Client) -> None:
+    """Test data seeding."""
+    bucket = gcslocal_seeded.bucket("bucket")
+
+    assert bucket.exists()
+
+    blobs = [blob.name for blob in bucket.list_blobs()]
+
+    assert len(blobs) == 1
+    assert blobs[0] == "test"
 
 
 @pytest.fixture(scope="session")

@@ -1,4 +1,5 @@
 """pytest-gcs plugin declaration."""
+
 from shutil import which
 
 from pytest import Parser
@@ -10,6 +11,7 @@ _HELP_EXEC = "Exec file to target."
 _HELP_HOST = "Host to run GCS service on."
 _HELP_PORT = "Port to run GCS service on."
 _HELP_FILESYSTEMROOT = "File system path buckets will be stored/created at."
+_HELP_DATA = "Directory path to load data from"
 _HELP_CORSHEADERS = "Comma separated list of headers to add to the CORS allowlist."
 _HELP_EXTERNALURL = (
     "Optional external URL, returned in the Location header for uploads."
@@ -30,6 +32,7 @@ def pytest_addoption(parser: Parser) -> None:
     parser.addini(name="gcs_port", help=_HELP_PORT)
     parser.addini(name="gcs_filesystemroot", help=_HELP_FILESYSTEMROOT)
     parser.addini(name="gcs_corsheaders", help=_HELP_CORSHEADERS)
+    parser.addini(name="gcs_data", help=_HELP_DATA)
     parser.addini(name="gcs_externalurl", help=_HELP_EXTERNALURL)
     parser.addini(name="gcs_loglevel", help=_HELP_LOGLEVEL)
 
@@ -43,6 +46,12 @@ def pytest_addoption(parser: Parser) -> None:
         action="store",
         dest="gcs_filesystemroot",
         help=_HELP_FILESYSTEMROOT,
+    )
+    parser.addoption(
+        "--gcs-data",
+        action="store",
+        dest="gcs_data",
+        help=_HELP_DATA,
     )
     parser.addoption(
         "--gcs-corsheaders",
